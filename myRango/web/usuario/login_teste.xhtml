@@ -1,0 +1,68 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+ 
+<head>
+	<title>SUAP: Sistema Unificado de Administração Pública</title>
+	<link type="text/css" rel="stylesheet" href="/css/forms.css" />
+	<link type="text/css" rel="stylesheet" href="/css/login.css" />
+        
+        <h:outputStylesheet library="css" name="forms.css"  />
+        <h:outputStylesheet library="css" name="login.css"  />
+</head>
+
+<body class="login">
+<div id="container">
+    <div id="content">
+        <h2 class="oculto">SUAP: Sistema Unificado de Administração Pública</h2>
+        
+        
+        <div id="login-suap">
+            SUAP
+        </div>
+        <div id="content-main">
+            <form action="" method="post" id="login-form"><input type='hidden' name='csrfmiddlewaretoken' value='aWgCKJwV5DOv6z8fvwV8tbv89y196G3t' />
+                <div class="form-row">
+                    
+                    <label for="id_username" class="required">Matr&iacute;cula:</label> <input id="id_username" maxlength="254" name="username" type="text" />
+                </div>
+                <div class="form-row">
+                    
+                    <label for="id_password" class="required">Senha:</label> <input id="id_password" name="password" type="password" />
+                    <input type="hidden" name="this_is_the_login_form" value="1" />
+                    <input type="hidden" name="next" value="/" />
+                </div>                
+                <div class="submit-row">
+                    <input type="submit" value="Acessar" />
+                </div>
+                <div class="form-row">
+					<!--   
+                    <a href="/comum/solicitar_trocar_senha/">Esqueceu sua senha?</a>
+                    -->
+                    <a href="mailto:dti@ifpi.edu.br">Em caso de erros contacte a DGTI</a>                    
+                </div>
+            </form>
+            <script>
+                document.getElementById('id_username').focus();
+            </script>
+        </div>
+    </div>
+    <ul id="servicos">
+        <!--li><a href="/protocolo/consulta_publica">Consulta de processos</a></li-->
+        <!--li><a href="/comum/solicitar_trocar_senha/">Solicitação de mudança de senha</a></li-->
+        <!--li><a href="/comum/autenticar_documento/">Autenticação de documento</a></li-->
+    </ul>
+    
+    <div id="login-footer">
+	    <p class="login-footer-esq">Adaptado por: <a href="http://www.ifpi.edu.br">Instituto Federal do Piau&iacute;</a></p>
+        <p class="login-footer-dir">SUAP &copy; 2014</p>
+    </div>
+</div>
+</body>
+</html>

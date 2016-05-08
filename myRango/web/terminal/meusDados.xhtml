@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+   
+
+<ui:decorate template="/layout/template_usuario.xhtml">
+    <ui:define name="conteudo">            
+
+        
+        <p:panel header="Meus Dados">
+        <h:form>
+            <p:messages id="mensagens_cadastro" showDetail="true"/>
+            <h:panelGrid columns="2" cellpadding="5">
+                
+                <p:outputLabel for="nome" value="Nome:" /> 
+                <p:inputText id="nome" value="#{terminalController.usuario.descricao}" size="50" readonly="true"/>
+
+                <p:outputLabel for="matricula" value="Matrícula:" /> 
+                <p:inputText id="matricula" value="#{terminalController.usuario.matricula}" size="10" readonly="true"/> 
+                
+                <p:outputLabel for="modulo" value="Módulo:" /> 
+                
+                <p:selectOneMenu id="modulo" value="#{terminalController.usuario.modulo}" converter="conversor" editable="false" disabled="true">                  
+                    <f:selectItem itemLabel="#{terminalController.usuario.modulo.descricao}"/>
+                    <!--
+                    <f:selectItems value="#{moduloController.modulos}" var="modulo"  itemValue="#{modulo}" itemLabel="#{modulo.descricao}"/>
+                    -->
+                </p:selectOneMenu>
+                
+                <p:outputLabel for="saldo" value="Saldo atual:" style="font-size: 16px"/> 
+                <p:inputText id="saldo" value="#{terminalController.usuario.saldo}" size="10" readonly="true" required="true"/>    
+                
+                
+                
+            </h:panelGrid>
+        </h:form>
+        </p:panel>
+        
+    </ui:define>
+</ui:decorate>        
+        
+</html>
+

@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+   
+
+<ui:decorate template="/layout/template_admin.xhtml">
+    <ui:define name="conteudo">
+
+
+    
+    <p:panel header="Refeições confirmadas">
+        <h:form  id="formFiltroUser">
+            
+            <f:metadata>
+                <f:viewParam  name="refId" value="#{refeicaoController.refeicao.id}"></f:viewParam>
+                <f:viewParam  name="userId" value="#{refeicaoController.usuario.id}"></f:viewParam>
+                <f:viewParam  name="userMat" value="#{refeicaoController.usuario.matricula}"></f:viewParam>
+             </f:metadata>  
+            
+            
+                <p:outputLabel for="userMat" value="Matrícula:" /> 
+                <p:inputText id="userMat" value="#{refeicaoController.usuario.matricula}" size="10" readonly="true"/>                
+                &nbsp;
+                <p:commandButton value="Selecionar" type="button" onclick="PF('dlgSelectUser').show()" />
+                
+                <p:inputText value="#{refeicaoController.usuario.id}" style="visibility: hidden"/>
+                <br/>
+                <br/>
+                <p:outputLabel for="dataUso" value="De:" />
+                <p:calendar id="dataUso" pattern="dd/MM/yyyy" showOn="button" value="#{refeicaoController.refeicao.dataUso}"/>
+                &nbsp;
+                &nbsp;
+                &nbsp;
+                <p:outputLabel for="dataFim" value="Até:" />
+                <p:calendar id="dataFim" pattern="dd/MM/yyyy" showOn="button" value="#{refeicaoController.refeicao.dataFimPesquisa}"/>                
+                
+                &nbsp;                
+                
+                <p:commandButton value="Pesquisar" action="#{refeicaoController.pesquisa()}" update=":refeicoesList">
+                    <f:ajax execute="@all"/>
+                </p:commandButton>
+            
+         
+                
+        </h:form>
+    </p:panel>    
+    
+<h:form id="refeicoesList">
+    
+    <p:dataTable var="refeicao" value="#{refeicaoController.refeicoes}" paginator="true" rows="10">
+        
+        <p:column headerText="Código">
+            <h:outputText value="#{refeicao.id}" />
+        </p:column>
+
+        <p:column headerText="Usuário">
+            <h:outputText value="#{refeicao.usuario.descricao}" />
+        </p:column>
+        
+        <p:column headerText="Data">
+            <h:outputText value="#{refeicao.dataUso}">
+                <f:convertDateTime pattern="dd/MM/yyyy"/>
+            </h:outputText>
+        </p:column>        
+        
+        <p:column headerText="Status">
+            <h:outputText value="#{refeicao.nomeStatus}" />
+        </p:column>        
+
+        <p:column headerText="Ações">
+            <p:commandButton icon="ui-icon-search" 
+                             value="Detalhes" 
+                             title="Detalhes" 
+                             onclick="PF('dlgOperacaoDetalhes').show()"
+                             update=":formOperacaoDetalhes">
+                <f:setPropertyActionListener target="#{refeicaoController.operacao}" value="#{refeicao.operacao}" />
+            </p:commandButton>   
+            
+            <h:link title="Cancelar" outcome="cancelar" rendered="#{refeicao.operacao.status==1}" >
+                <h:graphicImage library="imagens" url="/imagens/cancel.png" width="25" height="25"/>
+                <f:param name="id" value="#{refeicao.id}"/>
+                <f:param name="userId" value="#{refeicao.usuario.id}"/>
+            </h:link>              
+        </p:column>           
+            
+    </p:dataTable>              
+</h:form>        
+        
+        
+        <p:dialog appendTo="@(body)" 
+                  modal="true" 
+                  header="Detalhes" 
+                  widgetVar="dlgSelectUser"
+                  width="70%"
+                  height="90%">
+            <ui:include src="/usuario/busca.xhtml"/>
+        </p:dialog>        
+        
+        <p:dialog appendTo="@(body)" 
+                  modal="true" 
+                  header="Detalhes" 
+                  widgetVar="dlgOperacaoDetalhes"
+                  width="40%"
+                  height="90%"
+                  resizable="false">
+            <h:form id="formOperacaoDetalhes">
+                <h:panelGrid columns="2">
+                    <p:outputLabel for="tipo" value="Tipo de operação:" /> 
+                    <h:outputText id="tipo" value="#{refeicaoController.operacao.tipo}"/>                    
+                    <p:outputLabel for="quantidade" value="Ticket´s debitados:" /> 
+                    <h:outputText id="quantidade" value="#{refeicaoController.operacao.quantidade}"/>                 
+                    <p:outputLabel for="valor" value="Valor debitado R$:" /> 
+                    <h:outputText id="valor" value="#{refeicaoController.operacao.valor}"/>                
+                    <p:outputLabel for="data" value="Data do registro:" /> 
+                    <h:outputText id="data" value="#{refeicaoController.operacao.dataCadFormatada}"/>                
+                </h:panelGrid>
+                <hr/>
+                Em caso de dúvidas, procure o administrador do sistema.   
+            </h:form>    
+        </p:dialog>     
+        
+    </ui:define>
+</ui:decorate>        
+        
+</html>
+

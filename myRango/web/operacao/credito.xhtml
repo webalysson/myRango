@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+   
+
+<ui:decorate template="/layout/template_admin.xhtml">
+    <ui:define name="conteudo">      
+        
+        
+<f:metadata>
+    <f:viewParam name="id" value="#{operacaoController.usuario.id}"></f:viewParam>
+ </f:metadata>        
+        
+
+<h:form id="formSelectedUser">       
+        <p:panel header="Resgistrar operação de crédito">
+            
+            <h:panelGrid columns="3" cellpadding="5">
+                
+                <p:outputLabel for="nome" value="Nome:" /> 
+                <p:inputText id="nome" value="#{operacaoController.usuario.descricao}" size="50" readonly="true" required="true" requiredMessage="Usuário é obrigatório"/>
+                
+                <p:commandButton value="Selecionar" type="button" onclick="PF('dlgSelectUser').show()" />               
+
+                <p:outputLabel for="matricula" value="Matrícula:" /> 
+                <p:inputText id="matricula" value="#{operacaoController.usuario.matricula}" size="10" readonly="true" required="true" requiredMessage="Matricula é obrigatório"/> 
+                <p:inputText id="id" value="#{operacaoController.usuario.id}" size="50" style="visibility: hidden"/>
+                
+                <p:outputLabel for="modulo" value="Módulo:" /> 
+                <p:inputText id="modulo" value="#{operacaoController.usuario.modulo.descricao}" size="10" readonly="true" required="true"/> 
+                
+            </h:panelGrid>
+        </p:panel>
+        
+        <p:panel header="Operação">
+            <p:messages id="mensagens_cadastro_operacao" showDetail="false"/>
+            <h:panelGrid columns="2" cellpadding="5">
+                
+                <p:outputLabel for="tipo" value="Tipo de operação:" /> 
+                <p:selectOneMenu id="tipo" value="#{operacaoController.operacao.tipo}">                  
+                    <f:selectItem itemValue="C" itemLabel="CRÉDITO"/>
+                </p:selectOneMenu>                
+
+                <p:outputLabel for="quantidade" value="Quantidade de ticket's:" /> 
+                <p:selectOneMenu id="quantidade" value="#{operacaoController.operacao.quantidade}">                  
+                    <f:selectItem itemValue="1" itemLabel="1"/>
+                    <f:selectItem itemValue="2" itemLabel="2"/>
+                    <f:selectItem itemValue="3" itemLabel="3"/>
+                    <f:selectItem itemValue="4" itemLabel="4"/>
+                    <f:selectItem itemValue="5" itemLabel="5"/>
+                </p:selectOneMenu>
+                
+                <p:commandButton value="Registrar" 
+                                 update=":formAcaoConcluida mensagens_cadastro_operacao"
+                                 action="#{operacaoController.salva()}"
+                                 icon="fa fa-save"/> 
+                                 <!--oncomplete="PF('dlgAcaoConcluida').show()"-->
+                               
+            </h:panelGrid>
+        </p:panel>            
+</h:form>    
+            
+        <p:dialog appendTo="@(body)" 
+                  modal="true" 
+                  header="Detalhes" 
+                  widgetVar="dlgSelectUser"
+                  width="70%"
+                  height="90%">
+            <ui:include src="buscaUser.xhtml"/>
+        </p:dialog>
+        
+        <p:dialog appendTo="@(body)" 
+                  modal="true" 
+                  header="Procedimento concluido." 
+                  widgetVar="dlgAcaoConcluida"
+                  closable="false"
+                  width="30%"
+                  height="90%">
+            <h:form id="formAcaoConcluida">
+                <p:graphicImage url="/imagens/ok.png"/> 
+                Operação de crédito registrada com sucesso!
+                <br/>
+                <br/>
+                Novo saldo R$: <h:outputText value="#{operacaoController.usuario.saldo}"/>
+                <br/>
+                <br/>
+                <h:link value="Nova operação" title="Nova" outcome="credito"/>&nbsp;&nbsp;
+                <h:link value="Listar" title="Listar" outcome="#{operacaoController.retorno}">
+                 </h:link>           
+            </h:form>
+        </p:dialog>        
+        
+        
+    </ui:define>
+</ui:decorate>        
+        
+</html>
+

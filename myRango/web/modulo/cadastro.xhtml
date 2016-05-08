@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+   
+
+<ui:decorate template="/layout/template_admin.xhtml">
+    <ui:define name="conteudo">            
+
+        
+        <p:panel header="Cadastro de Modulos do Sistema">
+        <h:form>
+            <p:messages id="mensagens_cadastro" showDetail="true"/>
+            <h:panelGrid columns="2" cellpadding="5">
+                
+                <p:inputText id="id" value="#{moduloController.modulo.id}" style="visibility: hidden" />
+                
+                <p:outputLabel for="nome" value="Nome:" /> 
+                <p:inputText id="nome" value="#{moduloController.modulo.descricao}" />
+
+                <p:outputLabel for="ticket" value="Valor do Ticket:" /> 
+                <p:inputText id="ticket" value="#{moduloController.modulo.valorTicket}" /> 
+               
+                
+                <p:commandButton value="Cadastrar" update="mensagens_cadastro" action="#{moduloController.atualiza()}"/>
+                
+            </h:panelGrid>
+        </h:form>
+        </p:panel>
+        
+    </ui:define>
+</ui:decorate>        
+        
+</html>
+

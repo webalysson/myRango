@@ -1,0 +1,93 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+ 
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Meu Sistema</title>
+        <style type="text/css">
+            body {background-color: #eeeeee; font-size: 12px}
+        </style> 
+    </h:head>
+    
+    <h:body>
+        <div id="areaConteudo" align="center">
+            <div style="width:90%">
+                    <!--<h:graphicImage url="/imagens/topo.jpg" />-->
+                    <h:form>
+                    <p:menubar>
+                        <p:menuitem value="Início" url="/admin/home.xhtml" icon="fa fa-home"/>                       
+                        <p:submenu label="Procedimentos" icon="fa fa-outdent">
+                            <p:menuitem value="Processar" url="/refeicao/processamento.xhtml" icon="fa fa-database" ajax="true" />
+                            <p:menuitem value="Resumo" url="/refeicao/relatorio.xhtml" icon="fa fa-bar-chart-o" />
+                        </p:submenu>                      
+                        <f:facet name="options">
+                            #{usuarioController.usuarioLogado.funcao.descricao} :
+                            <p:commandButton icon="ui-icon-person" disabled="true"/>
+                            <p:menuitem value="#{usuarioController.usuarioLogado.descricao}" icon="ui-icon-person"/>
+                            #{usuarioController.usuarioLogado.descricao}
+                            <p:commandButton icon="ui-icon-extlink" value="Sair" action="#{usuarioController.logout()}" ajax="false"/>
+                        </f:facet>                          
+                    </p:menubar>
+                    </h:form>                                 
+            </div>  
+
+            <p:layout style="width:90%">  
+
+
+                
+                
+                
+                <p:layoutUnit position="west" size="220">  
+                    <ui:insert name="menu">
+                        <h:form>   
+                            <p:menu style="width: 90%;height: 100%">
+                                
+                              <p:submenu label="Usuários">
+                                  <p:menuitem value="Listar"  action="#{usuarioController.lista()}" ajax="false" icon="ui-icon-person" />
+                              </p:submenu>
+                                
+                              <p:submenu label="Operações">
+                                  <p:menuitem value="Crédito" action="#{operacaoController.credito()}" ajax="false" icon="fa fa-plus-square" />
+                                  <p:menuitem value="Listar" action="#{operacaoController.lista()}"  ajax="false" icon="fa fa-list-ol"/>
+                              </p:submenu>
+
+                              <p:submenu label="Refeições">
+                                  <p:menuitem value="Confirmar" action="#{refeicaoController.confima()}" ajax="false" icon="fa fa-cutlery"/>
+                                  <p:menuitem value="Listar" action="#{refeicaoController.lista()}" ajax="false" icon="fa fa-list-ol"/>
+                              </p:submenu>                                             
+                                
+                              <p:submenu label="Modulos">
+                                  <p:menuitem value="Listar" action="#{moduloController.lista()}" ajax="false" icon="fa fa-list-ol"/>
+                              </p:submenu>             
+                                
+                          </p:menu>
+                        </h:form>
+                    </ui:insert>
+                </p:layoutUnit> 
+                
+                <!-- AJAX STATUS============== -->
+                   <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+
+                   <p:dialog widgetVar="statusDialog" 
+                             modal="true" 
+                             draggable="false" 
+                             closable="false" 
+                             resizable="false" 
+                             showHeader="false">
+                       <p:graphicImage url="/imagens/ajax_load.gif"/> 
+                   </p:dialog>                           
+                 <!-- FIM AJAX STATUS============= -->                  
+                
+                <p:layoutUnit position="center" style="text-align: left">  
+                    <ui:insert name="conteudo">
+                        O que estiver aqui será substituido!
+                    </ui:insert>
+                </p:layoutUnit>  
+            </p:layout>  
+        </div>
+    </h:body>
+    
+</html>

@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+   
+
+<ui:decorate template="/layout/template_admin2.xhtml">
+    <ui:define name="conteudo">
+
+    <f:metadata>
+        <f:viewParam  name="refId" value="#{refeicaoController.refeicao.id}"></f:viewParam>
+        <f:viewParam  name="userId" value="#{refeicaoController.usuario.id}"></f:viewParam>
+        <f:viewParam  name="userMat" value="#{refeicaoController.usuario.matricula}"></f:viewParam>
+     </f:metadata>         
+
+    
+    <p:panel header="Refeições confirmadas">
+        <p:messages id="msg" showDetail="false"/>
+        <h:form  id="formFiltroUser">
+                <p:outputLabel for="dataUso" value="De:" />
+                <p:calendar id="dataUso" pattern="dd/MM/yyyy" showOn="button" value="#{refeicaoController.refeicao.dataUso}"/>                              
+                &nbsp;                                
+                <p:commandButton value="Pesquisar" action="#{refeicaoController.pesquisa()}" update=":refeicoesList">
+                    <f:ajax execute="@all"/>
+                </p:commandButton>      
+        </h:form>
+    </p:panel>    
+    <hr/>
+    <h:form id="refeicoesList">
+        <h:panelGrid columns="2">
+        
+        <p:outputLabel for="total" value="Total de registros:"/>
+        <p:inputText id="total" value="#{refeicaoController.refeicoes.size()}" readonly="true"/>
+              
+        
+        <p:outputLabel for="valorTotal" value="Valor total das operações: R$ "/>
+        <p:inputText id="valorTotal" value="#{refeicaoController.valorTotalDia}" readonly="true"/>
+        
+        <p:outputLabel for="valorProcessado" value="Valor processado: R$ "/>
+        <p:inputText id="valorProcessado" value="#{refeicaoController.valorProcessado}" readonly="true"/>        
+        
+        </h:panelGrid>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <hr/>
+        * São considerados os registros processados. 
+        <!-- AJAX STATUS============== -->
+        <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+
+        <p:dialog 
+                  appendTo="@(body)"
+                  widgetVar="statusDialog" 
+                  modal="true" 
+                  draggable="false" 
+                  closable="false" 
+                  resizable="false" 
+                  showHeader="false">
+            <p:graphicImage url="/imagens/ajaxloader.gif"/>
+            <br/>
+            Aguarde, processando...
+        </p:dialog>                       
+         <!-- FIM AJAX STATUS============= -->         
+        
+        <br/>     
+    </h:form>   
+
+        
+        <p:dialog appendTo="@(body)" 
+                  modal="true" 
+                  header="Procedimento concluido." 
+                  widgetVar="dlgAcaoConcluida"
+                  closable="false"
+                  width="30%"
+                  height="90%">
+            <h:form id="formAcaoConcluida">
+                <p:graphicImage url="/imagens/ok.png"/> 
+                Processamento concluido com sucesso!<br/><br/>
+                <h:link value="Novo processento" outcome="processamento"/>
+                &nbsp;<h:link value="Inicio" outcome="/admin/home"/>
+            </h:form>
+        </p:dialog>           
+        
+        
+    </ui:define>
+</ui:decorate>        
+        
+</html>
+

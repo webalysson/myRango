@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+ 
+<f:metadata>
+    <f:viewParam  name="id" value="#{terminalController.refeicao.id}"></f:viewParam>
+ </f:metadata>      
+
+<ui:decorate template="/layout/template_usuario.xhtml">
+    <ui:define name="conteudo">
+        
+        
+        <p:panel header="Refeições confirmadas">
+            <h:panelGrid columns="5">
+                <h:form  id="formFiltro">
+                    <p:outputLabel for="dataUso" value="De:" />
+                    <p:calendar id="dataUso" pattern="dd/MM/yyyy" showOn="button" value="#{terminalController.refeicao.dataUso}"/>
+                    &nbsp;
+                    &nbsp;
+                    &nbsp;
+                    <p:outputLabel for="dataFim" value="Até:" />
+                    <p:calendar id="dataFim" pattern="dd/MM/yyyy" showOn="button" value="#{terminalController.refeicao.dataFimPesquisa}"/>                
+
+                    &nbsp;                
+
+                    <p:commandButton value="Pesquisar" action="#{terminalController.pesquisaRefeicoes()}" update=":refeicoesList">
+                        <f:ajax execute="@all"/>
+                    </p:commandButton>
+
+
+
+            </h:form>
+            </h:panelGrid>    
+        </p:panel>            
+        
+
+        <h:form id="refeicoesList">
+            <p:dataTable var="refeicao" value="#{terminalController.refeicoes}" paginator="true">
+
+                <p:column headerText="Código">
+                    <h:outputText value="#{refeicao.id}" />
+                </p:column>
+
+                <p:column headerText="Usuário">
+                    <h:outputText value="#{refeicao.operacao.usuario.descricao}" />
+                </p:column>
+
+                <p:column headerText="Data Refeição">
+                    <h:outputText value="#{refeicao.dataUso}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:outputText>
+                </p:column>        
+
+                <p:column headerText="Data Confirmação">
+                    <h:outputText value="#{refeicao.dataCadFormatada}" />
+                </p:column>   
+                
+                <p:column headerText="Ações">
+                    <p:commandButton icon="ui-icon-search" 
+                                     value="Detalhes" 
+                                     title="Detalhes" 
+                                     onclick="PF('dlgOperacaoDetalhes').show()"
+                                     update=":formOperacaoDetalhes">
+                        <f:setPropertyActionListener target="#{terminalController.refeicao}" value="#{refeicao}" />
+                    </p:commandButton>           
+                </p:column>                 
+
+            </p:dataTable>   
+        </h:form>    
+        
+        
+        <p:dialog appendTo="@(body)" 
+                  modal="true" 
+                  header="Detalhes" 
+                  widgetVar="dlgOperacaoDetalhes"
+                  width="40%"
+                  height="90%">
+            <h:form id="formOperacaoDetalhes" style="font-size: 16px">
+                <h:panelGrid columns="2">
+                    <p:outputLabel for="tipo" value="Tipo de operação:" /> 
+                    <h:outputText id="tipo" value="#{terminalController.refeicao.operacao.tipo}"/>                    
+                    <p:outputLabel for="quantidade" value="Ticket´s debitados:" /> 
+                    <h:outputText id="quantidade" value="#{terminalController.refeicao.operacao.quantidade}"/>                 
+                    <p:outputLabel for="valor" value="Valor debitado R$:" /> 
+                    <h:outputText id="valor" value="#{terminalController.refeicao.operacao.valor}"/>     
+                    <p:outputLabel for="dataRef" value="Data da refeição:" /> 
+                    <h:outputText id="dataRef" value="#{terminalController.refeicao.dataUso}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:outputText>                     
+                    <p:outputLabel for="dataCad" value="Data da confimação:" /> 
+                    <h:outputText id="dataCad" value="#{terminalController.refeicao.dataCadFormatada}"/>                
+                </h:panelGrid>
+            </h:form>    
+        </p:dialog>     
+                
+        
+
+    </ui:define>
+</ui:decorate>        
+        
+</html>
+

@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+   
+
+<ui:decorate template="/layout/template_usuario.xhtml">
+    <ui:define name="conteudo">
+        
+        
+    <h:form id="formFilter">
+        <p:panel header="Operações do Usuário: #{terminalController.usuario.descricao} ">         
+            <h:panelGrid columns="3" cellpadding="5">
+                
+                <p:outputLabel for="tipo" value="Tipo de operação:" /> 
+                <p:selectOneMenu id="tipo" value="#{terminalController.operacao.tipo}">
+                    <f:selectItem itemLabel="TODAS" noSelectionOption="true"/>
+                    <f:selectItem itemValue="C" itemLabel="CRÉDITO"/>
+                    <f:selectItem itemValue="D" itemLabel="DÉBITO"/>
+                </p:selectOneMenu>               
+                
+                <p:commandButton value="Filtrar" action="#{terminalController.pesquisaOperacoes()}" update=":formTrOperacao"/>
+                
+            </h:panelGrid>            
+        </p:panel> 
+    </h:form>           
+        
+
+        <h:form id="formTrOperacao">
+            <p:dataTable var="operacao" value="#{terminalController.operacoes}" paginator="true" rows="10">
+
+            <p:column headerText="Código">
+                <h:outputText value="#{operacao.id}" />
+            </p:column>
+
+            <p:column headerText="Usuário">
+                <h:outputText value="#{operacao.usuario.descricao}" />
+            </p:column>
+
+            <p:column headerText="Tipo">
+                <h:outputText value="#{operacao.tipo}" />
+            </p:column>        
+
+            <p:column headerText="Quantidade">
+                <h:outputText value="#{operacao.quantidade}" />
+            </p:column>
+
+            <p:column headerText="Data Registro">
+                <h:outputText value="#{operacao.dataCadFormatada}" />
+            </p:column>
+
+            <p:column headerText="Ações">
+                <p:commandButton icon="ui-icon-search" actionListener="#{operacaoController.openDlgDetalhes()}" title="Detalhes"/>           
+                <p:commandButton icon="ui-icon-pencil" action="#{operacaoController.editar()}" title="Editar">
+                    <f:setPropertyActionListener value="#{operacao}" target="#{operacaoController.lista}"/>
+                </p:commandButton>
+            </p:column>        
+
+
+
+        </p:dataTable>     
+
+    </h:form>        
+
+    </ui:define>
+</ui:decorate>        
+        
+</html>
+

@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+           
+    
+
+<ui:decorate template="/layout/template_admin.xhtml">
+    <ui:define name="conteudo">            
+
+<f:metadata>
+    <f:viewParam name="id" value="#{usuarioController.usuario.id}"></f:viewParam>
+ </f:metadata>         
+        
+        <p:panel header="Cadastro de Usuários do Sistema">
+        <h:form>
+            <p:messages id="msg" showDetail="true"/>
+            
+            <h:panelGrid columns="2" cellpadding="5">
+                
+                <p:outputLabel for="nome" value="Nome:" /> 
+                <p:inputText id="nome" value="#{usuarioController.usuario.descricao}" size="50"/>
+
+                <p:outputLabel for="matricula" value="Matrícula:" /> 
+                <p:inputText id="matricula" value="#{usuarioController.usuario.matricula}" /> 
+                
+                <p:outputLabel for="modulo" value="Módulo:" /> 
+                
+                <p:selectOneMenu id="modulo" value="#{usuarioController.usuario.modulo}" converter="conversor">                  
+                    
+                    <f:selectItems value="#{moduloController.modulos}" var="modulo"  itemValue="#{modulo}" itemLabel="#{modulo.descricao}"/>
+               
+                </p:selectOneMenu>
+                
+                <p:commandButton value="Salvar" 
+                                 icon="fa fa-save"
+                                 update=":formAcaoConcluida msg"
+                                 action="#{usuarioController.salva()}" 
+                                 oncomplete="PF('dlgAcaoConcluida').show()"/>                
+                
+            </h:panelGrid>
+        </h:form>
+        </p:panel>
+        
+        
+        <p:dialog appendTo="@(body)" 
+                  modal="true" 
+                  header="Procedimento concluido." 
+                  widgetVar="dlgAcaoConcluida"
+                  width="30%"
+                  height="90%">
+            <h:form id="formAcaoConcluida">
+                Atualização realizada com sucesso!
+                <h:link value="Lista" title="Lista" outcome="lista"/>&nbsp;&nbsp;
+                <h:link value="Detalhes" title="Detalhes" outcome="#{usuarioController.retorno}">
+                 </h:link>           
+            </h:form>
+        </p:dialog>         
+        
+        
+    </ui:define>
+</ui:decorate>        
+        
+</html>
+

@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+   
+
+<ui:decorate template="/layout/template_admin.xhtml">
+    <ui:define name="conteudo">
+        
+<f:metadata>
+    <f:viewParam name="matricula" value="#{usuarioController.usuario.matricula}"></f:viewParam>
+ </f:metadata>        
+        
+        <p:panel header="Selecione o usuário">
+        <h:form>
+                
+                <p:outputLabel for="descricao" value="Nome:" /> 
+                <p:inputText id="descricao" value="#{usuarioController.usuario.descricao}" />
+                &nbsp;
+                <p:outputLabel for="matricula" value="Matrícula:" /> 
+                <p:inputText id="matricula" value="#{usuarioController.usuario.matricula}" />
+                &nbsp;
+                <p:outputLabel for="modulo" value="Módulo:" /> 
+                <p:selectOneMenu id="modulo" value="#{usuarioController.modulo.id}">   
+                    
+                    <f:selectItem itemLabel="Selecione" itemValue="#{null}"/>
+                    <f:selectItems value="#{moduloController.modulos}" var="modulo"  itemValue="#{modulo.id}" itemLabel="#{modulo.descricao}"/>
+               
+                </p:selectOneMenu>                
+                &nbsp;
+                <p:commandButton value="Pesquisar" action="#{usuarioController.pesquisa()}" update=":formTrUsuario">
+                </p:commandButton>
+                
+        </h:form>
+        </p:panel>        
+        
+        
+
+        <h:form id="formTrUsuario">
+            <p:dataTable var="usuario" value="#{usuarioController.usuarios}" id="trUsuario" paginator="true" emptyMessage="Sem resultados!">
+        
+        <p:column headerText="ID">
+            <h:outputText value="#{usuario.id}" />
+        </p:column>
+
+        <p:column headerText="Nome">
+            <h:outputText value="#{usuario.descricao}" />
+        </p:column>
+        
+        <p:column headerText="Matrícula">
+            <h:outputText value="#{usuario.matricula}" />
+        </p:column>        
+
+        <p:column headerText="Status">
+            <h:outputText value="#{usuario.nomeStatus}" />
+        </p:column>
+
+        <p:column headerText="Módulo">
+            <h:outputText value="#{usuario.modulo.descricao}" />
+        </p:column>
+
+        <p:column headerText="Ações">
+
+            <h:link value="Crédito" title="Crédito" outcome="/operacao/credito">
+                <f:param name="id" value="#{usuario.id}"/>
+            </h:link>     
+            |
+            <h:link value="Débito" title="Débito" outcome="/refeicao/confirma">
+                <f:param name="id" value="#{usuario.id}"/>
+            </h:link>     
+            |
+            <h:link value="Listar" title="listar" outcome="/operacao/listaPorUsuario">
+                <f:param name="id" value="#{usuario.id}"/>
+            </h:link>                         
+            
+        </p:column>            
+            
+    </p:dataTable>        
+</h:form>        
+
+    </ui:define>
+</ui:decorate>        
+        
+</html>
+

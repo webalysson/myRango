@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+   
+
+<ui:decorate template="/layout/template_admin.xhtml">
+    <ui:define name="conteudo">
+
+
+    
+        <p:panel header="Refeições confirmadas">
+        <h:form  id="formFiltroUser">
+            
+                <f:metadata>
+                    <f:viewParam  name="refId" value="#{refeicaoController.refeicao.id}"></f:viewParam>
+                    <f:viewParam  name="userId" value="#{refeicaoController.usuario.id}"></f:viewParam>
+                    <f:viewParam  name="userMat" value="#{refeicaoController.usuario.matricula}"></f:viewParam>
+                 </f:metadata>            
+                
+                <p:outputLabel for="userMat" value="Matrícula:" /> 
+                <p:inputText id="userMat" value="#{refeicaoController.usuario.matricula}" size="10" readonly="true"/>                
+                &nbsp;
+                <p:commandButton value="Selecionar" type="button" onclick="PF('dlgSelectUser').show()" />
+                
+                <p:inputText value="#{refeicaoController.usuario.id}" readonly="true" style="visibility:hidden"/>
+                
+        </h:form>
+        </p:panel>    
+    
+<h:form id="refeicoesList">
+    
+    <p:dataTable var="refeicao" value="#{refeicaoController.refeicoes}" paginator="true">
+        
+        <p:column headerText="Código">
+            <h:outputText value="#{refeicao.id}" />
+        </p:column>
+
+        <p:column headerText="Usuário">
+            <h:outputText value="#{refeicao.usuario.descricao}" />
+        </p:column>
+        
+        <p:column headerText="Data">
+            <h:outputText value="#{refeicao.dataUso}">
+                <f:convertDateTime pattern="dd/MM/yyyy"/>
+            </h:outputText>
+        </p:column>        
+
+        <p:column headerText="Confirmação">
+            <h:outputText value="#{refeicao.dataCadFormatada}" />
+        </p:column>
+        
+        <p:column headerText="Status">
+            <h:outputText value="#{refeicao.status}" />
+        </p:column>        
+
+        <p:column headerText="Ações">
+            <p:commandButton icon="ui-icon-search" 
+                             value="Detalhes" 
+                             title="Detalhes" 
+                             onclick="PF('dlgOperacaoDetalhes').show()"
+                             update=":formOperacaoDetalhes">
+                <f:setPropertyActionListener target="#{refeicaoController.operacao}" value="#{refeicao.operacao}" />
+            </p:commandButton>           
+        </p:column>           
+            
+    </p:dataTable>              
+</h:form>        
+        
+        
+        <p:dialog appendTo="@(body)" 
+                  modal="true" 
+                  header="Detalhes" 
+                  widgetVar="dlgSelectUser"
+                  width="70%"
+                  height="90%">
+            <ui:include src="/usuario/busca.xhtml"/>
+        </p:dialog>        
+        
+        <p:dialog appendTo="@(body)" 
+                  modal="true" 
+                  header="Detalhes da operação" 
+                  widgetVar="dlgOperacaoDetalhes"
+                  width="40%"
+                  height="90%">
+            <h:form id="formOperacaoDetalhes">
+                <p:panelGrid columns="2">
+                <p:outputLabel for="quantidade" value="Ticket´s debitados:" /> 
+                <p:inputText id="quantidade" value="#{refeicaoController.operacao.quantidade}" size="3" readonly="true"/>                 
+                <p:outputLabel for="tipo" value="Tipo:" /> 
+                <p:inputText id="tipo" value="#{refeicaoController.operacao.tipo}" size="3" readonly="true"/>
+                <p:outputLabel for="data" value="Data do registro:" /> 
+                <p:inputText id="data" value="#{refeicaoController.operacao.dataCadFormatada}" size="3" readonly="true"/>                
+                </p:panelGrid>
+            </h:form>    
+            
+        </p:dialog>     
+        
+    </ui:define>
+</ui:decorate>        
+        
+</html>
+

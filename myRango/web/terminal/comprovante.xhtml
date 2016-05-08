@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+   
+
+<ui:decorate template="/layout/template_usuario.xhtml">
+    <ui:define name="conteudo">            
+
+<h:form>       
+            
+            <p:messages showDetail="true"/>
+            
+            <f:metadata>
+                <f:viewParam name="s" value="#{terminalController.isSessao}" />
+            </f:metadata>
+                <p:fieldset legend="Comprovante de refeição">
+                    
+                    <h:outputLabel for="nome" value="Beneficiário:" /> 
+                    <h:outputText id="nome" value="#{terminalController.refeicao.operacao.usuario.descricao}"/>
+                    <br/>
+                    <br/>
+                    <h:outputLabel for="matricula" value="Matrícula:" /> 
+                    <h:outputText id="matricula" value="#{terminalController.refeicao.operacao.usuario.matricula}"/> 
+                    <br/>
+                    <br/>
+                    <h:outputLabel for="modulo" value="Módulo:" /> 
+                    <h:outputText id="modulo" value="#{terminalController.refeicao.operacao.usuario.modulo.descricao}"/>                     
+                    <br/>
+                    <br/>
+                    <h:outputLabel for="tipo" value="Tipo de operação:" /> 
+                    <h:outputText id="tipo" value="#{terminalController.refeicao.operacao.tipo}"/>
+                    <br/>
+                    <br/>
+                    <h:outputLabel for="quantidade" value="Ticket´s debitados:" /> 
+                    <h:outputText id="quantidade" value="#{terminalController.refeicao.operacao.quantidade}"/>
+                    <br/>
+                    <br/>
+                    <h:outputLabel for="dataCad" value="Data do registro:" /> 
+                    <h:outputText id="dataCad" value="#{terminalController.refeicao.dataCad}"/>  
+                    <br/>
+                    <br/>
+                    <h:outputLabel for="dataUso" value="Data da refeição:" /> 
+                    <h:outputText id="dataUso" value="#{terminalController.refeicao.dataUso}"/>                     
+                    <br/>
+                    <br/>
+                    
+                </p:fieldset>              
+            
+          
+                 
+</h:form>
+        
+    
+        
+    </ui:define>
+</ui:decorate>        
+        
+</html>
+

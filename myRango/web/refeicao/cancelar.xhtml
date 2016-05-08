@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+   
+
+<ui:decorate template="/layout/template_admin.xhtml">
+    <ui:define name="conteudo">            
+
+        
+<f:metadata>
+    <f:viewParam name="id" value="#{refeicaoController.refeicao.id}"></f:viewParam>
+    <f:viewParam name="userId" value="#{refeicaoController.usuario.id}"></f:viewParam>
+</f:metadata>        
+        
+        
+<h:form id="formSelectedUser">       
+        <p:panel header="Cancelamento de refeição confirmada">
+            
+            <h:panelGrid columns="3" cellpadding="5">
+                
+                <p:outputLabel for="nome" value="Nome:" /> 
+                <p:inputText id="nome" value="#{refeicaoController.usuario.descricao}" size="50" readonly="true" required="true" requiredMessage="Usuário é obrigatório"/>
+                
+                <p:commandButton value="Selecionar" type="button" onclick="PF('dlgSelectUser').show()" disabled="true"/>                   
+                
+                 <p:outputLabel for="matricula" value="Matrícula:" /> 
+                <p:inputText id="matricula" value="#{refeicaoController.usuario.matricula}" size="10" readonly="true" required="true" requiredMessage="Matricula é obrigatório"/> 
+                <p:inputText id="id" value="#{refeicaoController.usuario.id}" size="50" style="visibility: hidden"/>
+                
+                <p:outputLabel for="saldo" value="Saldo atual:" style="font-size: 16px"/> 
+                <p:inputText id="saldo" value="#{refeicaoController.usuario.saldo}" size="10" readonly="true" required="true"/> 
+                
+            </h:panelGrid>
+        </p:panel>
+        
+        <p:panel header="Operação">
+            <p:messages id="msg" showDetail="false"/>
+            <h:panelGrid columns="2" cellpadding="5">
+                
+                <p:outputLabel for="tipo" value="Tipo de operação:" /> 
+                <p:selectOneMenu id="tipo" value="#{refeicaoController.operacao.tipo}">                  
+                    <f:selectItem itemValue="D" itemLabel="DÉBITO"/>
+                </p:selectOneMenu>                
+
+                <p:outputLabel for="quantidade" value="Quantidade de ticket's que foram debitados:" /> 
+                <p:selectOneMenu id="quantidade" value="#{refeicaoController.operacao.quantidade}">                  
+                    <f:selectItem itemValue="1" itemLabel="1"/>
+                </p:selectOneMenu>
+                
+                <p:outputLabel for="dataUso" value="Data da refeição:" style="font-size: 17px"/>                
+                <h:outputText id="dataUso" value="#{refeicaoController.refeicao.dataUso}" style="font-size: 17px">
+                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                </h:outputText>                
+                
+                <p:commandButton value="Cancelar confirmação" 
+                                 update=":formAcaoConcluida msg"
+                                 action="#{refeicaoController.cancelar()}"/> 
+                                 <!-- oncomplete="PF('dlgAcaoConcluida').show()" -->
+                              
+                                 
+            </h:panelGrid>
+        </p:panel>            
+</h:form>
+
+               
+        
+        <p:dialog appendTo="@(body)" 
+                  modal="true" 
+                  header="Procedimento concluido." 
+                  widgetVar="dlgAcaoConcluida"
+                  closable="false"
+                  width="30%"
+                  height="90%">
+            <h:form id="formAcaoConcluida">
+                <p:graphicImage url="/imagens/ok.png"/> 
+                Refeição cancelada com sucesso!<br/><br/>
+                <h:link value="Listar" title="Listar" outcome="#{refeicaoController.retorno}">
+                 </h:link>           
+            </h:form>
+        </p:dialog>           
+        
+        
+        
+    </ui:define>
+</ui:decorate>        
+        
+</html>
+

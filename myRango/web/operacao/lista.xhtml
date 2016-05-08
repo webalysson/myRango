@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+   
+
+<ui:decorate template="/layout/template_admin.xhtml">
+    <ui:define name="conteudo">
+        
+        
+<f:metadata>
+    <f:viewParam name="id" value="#{operacaoController.operacao.id}"></f:viewParam>
+    <f:viewParam name="userId" value="#{operacaoController.usuario.id}"></f:viewParam>
+ </f:metadata>          
+    
+    <h:form id="formSelectedUser">
+        <p:panel header="Operações do Usuário: #{operacaoController.usuario.descricao} ">
+            
+            <h:panelGrid columns="3" cellpadding="5">
+                <p:outputLabel for="matricula" value="Matrícula:" /> 
+                <p:inputText id="matricula" value="#{operacaoController.usuario.matricula}" size="10" readonly="true"/>                 
+                
+                <p:commandButton value="Selecionar" type="button" onclick="PF('dlgSelectUser').show()" />
+                
+                <p:outputLabel for="tipo" value="Tipo de operação:" /> 
+                <p:selectOneMenu id="tipo" value="#{operacaoController.operacao.tipo}">                  
+                    <f:selectItem itemValue="C" itemLabel="CRÉDITO"/>
+                    <f:selectItem itemValue="D" itemLabel="DÉBITO"/>
+                </p:selectOneMenu>               
+                
+                <p:commandButton value="Filtrar" action="#{operacaoController.pesquisa()}" update=":formTrOperacao"/>
+                
+            </h:panelGrid>
+            
+        </p:panel> 
+        <p:inputText id="id" value="#{operacaoController.usuario.id}" size="50" style="visibility: hidden"/>
+    </h:form>      
+
+    
+    <h:form id="formTrOperacao">
+        <p:dataTable var="operacao" value="#{operacaoController.operacoes}" 
+                     paginator="true" rows="10" sortBy="#{operacao.id}" sortOrder="descending">
+        
+        <p:column headerText="Código">
+            <h:outputText value="#{operacao.id}" />
+        </p:column>
+
+        <p:column headerText="Usuário">
+            <h:outputText value="#{operacao.usuario.descricao}" />
+        </p:column>
+        
+        <p:column headerText="Tipo">
+            <h:outputText value="#{operacao.tipo}" />
+        </p:column>        
+
+        <p:column headerText="Valor R$">
+            <h:outputText value="#{operacao.valor}" />
+        </p:column>                
+
+        <p:column headerText="Data Registro">
+            <h:outputText value="#{operacao.dataCadFormatada}" />
+        </p:column>
+
+        <p:column headerText="Ações">
+            <p:commandButton icon="ui-icon-search" 
+                             value="Detalhes" 
+                             title="Detalhes" 
+                             onclick="PF('dlgOperacaoDetalhes').show()"
+                             update=":formOperacaoDetalhes">
+                <f:setPropertyActionListener target="#{operacaoController.operacao}" value="#{operacao}" />
+            </p:commandButton> 
+        </p:column>            
+            
+    </p:dataTable>   
+    </h:form>        
+
+        <p:dialog appendTo="@(body)" 
+                  modal="true" 
+                  header="Detalhes" 
+                  widgetVar="dlgSelectUser"
+                  width="70%"
+                  height="90%">
+            <ui:include src="buscaUser.xhtml"/>
+        </p:dialog>    
+        
+        <p:dialog appendTo="@(body)" 
+                  modal="true" 
+                  header="Detalhes da operação" 
+                  widgetVar="dlgOperacaoDetalhes"
+                  width="30%"
+                  height="100%">
+            <h:form id="formOperacaoDetalhes">
+                <h:panelGrid columns="2">
+                    <p:outputLabel for="codigo" value="Código da operação:" /> 
+                    <h:outputText id="codigo" value="#{operacaoController.operacao.id}"/>                      
+                    <p:outputLabel for="tipo" value="Tipo de operação:" /> 
+                    <h:outputText id="tipo" value="#{operacaoController.operacao.tipo}"/>                    
+                    <p:outputLabel for="quantidade" value="Ticket´s:" /> 
+                    <h:outputText id="quantidade" value="#{operacaoController.operacao.quantidade}"/>                 
+                    <p:outputLabel for="valor" value="Valor R$:" /> 
+                    <h:outputText id="valor" value="#{operacaoController.operacao.valor}"/>
+                    <p:outputLabel for="saldo" value="Saldo R$:" /> 
+                    <h:outputText id="saldo" value="#{operacaoController.operacao.saldo}"/>                    
+                    <p:outputLabel for="data" value="Data do registro:" /> 
+                    <h:outputText id="data" value="#{operacaoController.operacao.dataCadFormatada}"/>     
+                    <p:outputLabel for="processado" value="Processado:"/> 
+                    <h:outputText id="processado" value="#{operacaoController.operacao.tipo=='C' ? 'SIM' : operacaoController.operacao.nomeStatus }"/>                     
+                </h:panelGrid>
+            </h:form>    
+        </p:dialog>         
+        
+
+    </ui:define>
+</ui:decorate>        
+        
+</html>
+

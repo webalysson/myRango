@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+   
+
+<ui:decorate template="/layout/template_admin.xhtml">
+    <ui:define name="conteudo">
+        
+        
+<f:metadata>
+    <f:viewParam name="id" value="#{operacaoController.usuario.id}"></f:viewParam>
+ </f:metadata>          
+        
+
+<h:form>
+    
+    
+        <p:panel header="Operações do Usuário">
+            
+            <h:panelGrid columns="2" cellpadding="5">
+                
+                <p:outputLabel for="nome" value="Nome:" /> 
+                <p:inputText id="nome" value="#{operacaoController.usuario.descricao}" size="50" readonly="true"/>
+
+                <p:outputLabel for="matricula" value="Matrícula:" /> 
+                <p:inputText id="matricula" value="#{operacaoController.usuario.matricula}" size="10" readonly="true"/> 
+                
+                <p:outputLabel for="modulo" value="Módulo:" /> 
+                <p:inputText id="modulo" value="#{operacaoController.usuario.modulo.descricao}" size="10" readonly="true"/> 
+                
+            </h:panelGrid>
+        </p:panel>    
+    
+    
+    <p:dataTable var="operacao" value="#{operacaoController.operacoes}" paginator="true">
+        
+        <p:column headerText="Código">
+            <h:outputText value="#{operacao.id}" />
+        </p:column>
+
+        <p:column headerText="Usuário">
+            <h:outputText value="#{operacao.usuario.descricao}" />
+        </p:column>
+        
+        <p:column headerText="Tipo">
+            <h:outputText value="#{operacao.tipo}" />
+        </p:column>        
+
+        <p:column headerText="Quantidade">
+            <h:outputText value="#{operacao.quantidade}" />
+        </p:column>
+
+        <p:column headerText="Data Registro">
+            <h:outputText value="#{operacao.dataCadFormatada}" />
+        </p:column>
+
+        <p:column headerText="Ações">
+            <p:commandButton icon="ui-icon-search" actionListener="#{operacaoController.openDlgDetalhes()}" title="Detalhes"/>           
+            <p:commandButton icon="ui-icon-pencil" action="#{operacaoController.editar()}" title="Editar">
+                <f:setPropertyActionListener value="#{operacao}" target="#{operacaoController.lista}"/>
+            </p:commandButton>
+        </p:column>            
+            
+    </p:dataTable>   
+
+    
+    <p:dialog modal="true" resizable="false" header="Detalhes" widgetVar="dlgOperacaoDetalhes">
+        <p:panelGrid id="display" columns="2">
+            <h:outputText value="Usuario:"/>
+            <h:outputText value="#{operacao.usuario.descricao}" />
+            <h:outputText value="Tipo de operação:"/>
+            <h:outputText value="#{operacao.tipo}" />
+            <h:outputText value="Quantidade:"/>
+            <h:outputText value="#{operacao.quantidade}" />
+            <h:outputText value="Data do registro:"/>
+            <h:outputText value="#{operacao.dataCadFormatada}" />
+        </p:panelGrid>
+    </p:dialog>    
+    
+</h:form>        
+
+    </ui:define>
+</ui:decorate>        
+        
+</html>
+

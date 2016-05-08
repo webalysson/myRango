@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+   
+
+<ui:decorate template="/layout/template_admin.xhtml">
+    <ui:define name="conteudo">            
+
+<h:form>       
+        <p:panel header="Resgistrar operação de débito">
+            <p:messages id="mensagens_cadastro" showDetail="true"/>
+            <p:inputText id="id" value="#{operacaoController.usuario.id}" style="visibility: hidden" />
+            <h:panelGrid columns="2" cellpadding="5">
+                
+                <p:outputLabel for="nome" value="Nome:" /> 
+                <p:inputText id="nome" value="#{operacaoController.usuario.descricao}" />
+
+                <p:outputLabel for="matricula" value="Matrícula:" /> 
+                <p:inputText id="matricula" value="#{operacaoController.usuario.matricula}" /> 
+                
+                <p:outputLabel for="modulo" value="Módulo:" /> 
+                <p:inputText id="modulo" value="#{operacaoController.modulo.descricao}" /> 
+                
+            </h:panelGrid>
+        </p:panel>
+        
+        <p:panel header="Operação">
+            <p:messages id="mensagens_cadastro_operacao" showDetail="true"/>
+            <h:panelGrid columns="2" cellpadding="5">
+                
+                <p:outputLabel for="tipo" value="Tipo de operação:" /> 
+                <p:selectOneMenu id="tipo" value="#{operacaoController.operacao.tipo}">                  
+                    <f:selectItem itemValue="D" itemLabel="DÉBITO"/>
+                </p:selectOneMenu>                
+
+                <p:outputLabel for="quantidade" value="Quantidade de ticket's debitados:" /> 
+                <p:selectOneMenu id="quantidade" value="#{operacaoController.operacao.quantidade}">                  
+                    <f:selectItem itemValue="1" itemLabel="1"/>
+                </p:selectOneMenu>
+                
+                <p:outputLabel for="dataUso" value="Data de ultilização:" />
+                <p:calendar id="dataUso" pattern="dd/MM/yyyy" showOn="button" value="#{operacaoController.operacao.refeicao.dataUso}"/>                
+                
+                <p:commandButton value="Registrar" update="mensagens_cadastro_operacao" action="#{operacaoController.salva()}"/>
+                
+            </h:panelGrid>
+        </p:panel>            
+</h:form>
+
+        
+        
+        
+        
+        
+    </ui:define>
+</ui:decorate>        
+        
+</html>
+
